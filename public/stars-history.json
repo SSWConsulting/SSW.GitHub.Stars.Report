@@ -1,0 +1,632 @@
+{
+  "orgs": [
+    {
+      "name": "SSWConsulting",
+      "login": "SSWConsulting",
+      "repos": [
+        {
+          "repo": "SSWConsulting/SSW.Website",
+          "name": "SSW.Website",
+          "private": false,
+          "history": [
+            {
+              "date": "2024-07-01",
+              "stars": 5
+            },
+            {
+              "date": "2024-10-01",
+              "stars": 6
+            },
+            {
+              "date": "2025-01-01",
+              "stars": 9
+            },
+            {
+              "date": "2025-04-01",
+              "stars": 10
+            },
+            {
+              "date": "2025-07-01",
+              "stars": 10
+            },
+            {
+              "date": "2025-10-01",
+              "stars": 10
+            },
+            {
+              "date": "2026-01-01",
+              "stars": 10
+            },
+            {
+              "date": "2026-04-01",
+              "stars": 10
+            },
+            {
+              "date": "2026-07-01",
+              "stars": 14
+            }
+          ],
+          "created": "2023-01-04"
+        },
+        {
+          "repo": "SSWConsulting/SSW.Website.Global",
+          "name": "SSW.Website.Global",
+          "private": false,
+          "history": [
+            {
+              "date": "2024-07-01",
+              "stars": 0
+            },
+            {
+              "date": "2024-10-01",
+              "stars": 0
+            },
+            {
+              "date": "2025-01-01",
+              "stars": 0
+            },
+            {
+              "date": "2025-04-01",
+              "stars": 0
+            },
+            {
+              "date": "2025-07-01",
+              "stars": 0
+            },
+            {
+              "date": "2025-10-01",
+              "stars": 0
+            },
+            {
+              "date": "2026-01-01",
+              "stars": 0
+            },
+            {
+              "date": "2026-04-01",
+              "stars": 0
+            },
+            {
+              "date": "2026-07-01",
+              "stars": 1
+            }
+          ],
+          "created": "2026-05-20"
+        },
+        {
+          "repo": "SSWConsulting/SSW.People",
+          "name": "SSW.People",
+          "private": false,
+          "history": [
+            {
+              "date": "2024-07-01",
+              "stars": 11
+            },
+            {
+              "date": "2024-10-01",
+              "stars": 11
+            },
+            {
+              "date": "2025-01-01",
+              "stars": 12
+            },
+            {
+              "date": "2025-04-01",
+              "stars": 12
+            },
+            {
+              "date": "2025-07-01",
+              "stars": 12
+            },
+            {
+              "date": "2025-10-01",
+              "stars": 12
+            },
+            {
+              "date": "2026-01-01",
+              "stars": 12
+            },
+            {
+              "date": "2026-04-01",
+              "stars": 12
+            },
+            {
+              "date": "2026-07-01",
+              "stars": 12
+            }
+          ],
+          "created": "2019-10-31"
+        },
+        {
+          "repo": "SSWConsulting/SSW.People.Profiles",
+          "name": "SSW.People.Profiles",
+          "private": false,
+          "history": [
+            {
+              "date": "2024-07-01",
+              "stars": 11
+            },
+            {
+              "date": "2024-10-01",
+              "stars": 11
+            },
+            {
+              "date": "2025-01-01",
+              "stars": 12
+            },
+            {
+              "date": "2025-04-01",
+              "stars": 13
+            },
+            {
+              "date": "2025-07-01",
+              "stars": 13
+            },
+            {
+              "date": "2025-10-01",
+              "stars": 13
+            },
+            {
+              "date": "2026-01-01",
+              "stars": 14
+            },
+            {
+              "date": "2026-04-01",
+              "stars": 14
+            },
+            {
+              "date": "2026-07-01",
+              "stars": 14
+            }
+          ],
+          "created": "2019-10-29"
+        },
+        {
+          "repo": "SSWConsulting/SSW.Rules",
+          "name": "SSW.Rules",
+          "private": false,
+          "history": [
+            {
+              "date": "2024-07-01",
+              "stars": 10
+            },
+            {
+              "date": "2024-10-01",
+              "stars": 12
+            },
+            {
+              "date": "2025-01-01",
+              "stars": 14
+            },
+            {
+              "date": "2025-04-01",
+              "stars": 16
+            },
+            {
+              "date": "2025-07-01",
+              "stars": 18
+            },
+            {
+              "date": "2025-10-01",
+              "stars": 19
+            },
+            {
+              "date": "2026-01-01",
+              "stars": 21
+            },
+            {
+              "date": "2026-04-01",
+              "stars": 22
+            },
+            {
+              "date": "2026-07-01",
+              "stars": 25
+            }
+          ],
+          "created": "2020-04-21"
+        },
+        {
+          "repo": "SSWConsulting/SSW.Rules.Content",
+          "name": "SSW.Rules.Content",
+          "private": false,
+          "history": [
+            {
+              "date": "2024-07-01",
+              "stars": 41
+            },
+            {
+              "date": "2024-10-01",
+              "stars": 43
+            },
+            {
+              "date": "2025-01-01",
+              "stars": 44
+            },
+            {
+              "date": "2025-04-01",
+              "stars": 48
+            },
+            {
+              "date": "2025-07-01",
+              "stars": 50
+            },
+            {
+              "date": "2025-10-01",
+              "stars": 52
+            },
+            {
+              "date": "2026-01-01",
+              "stars": 52
+            },
+            {
+              "date": "2026-04-01",
+              "stars": 56
+            },
+            {
+              "date": "2026-07-01",
+              "stars": 58
+            }
+          ],
+          "created": "2019-08-19"
+        },
+        {
+          "repo": "SSWConsulting/SSW.YakShaver",
+          "name": "YakShaver",
+          "private": true,
+          "history": [
+            {
+              "date": "2024-07-01",
+              "stars": 2
+            },
+            {
+              "date": "2024-10-01",
+              "stars": 2
+            },
+            {
+              "date": "2025-01-01",
+              "stars": 3
+            },
+            {
+              "date": "2025-04-01",
+              "stars": 3
+            },
+            {
+              "date": "2025-07-01",
+              "stars": 3
+            },
+            {
+              "date": "2025-10-01",
+              "stars": 4
+            },
+            {
+              "date": "2026-01-01",
+              "stars": 6
+            },
+            {
+              "date": "2026-04-01",
+              "stars": 7
+            },
+            {
+              "date": "2026-07-01",
+              "stars": 7
+            }
+          ],
+          "created": "2024-03-04"
+        },
+        {
+          "repo": "SSWConsulting/SSW.YakShaver.Desktop",
+          "name": "YakShaver Desktop",
+          "private": false,
+          "history": [
+            {
+              "date": "2024-07-01",
+              "stars": 0
+            },
+            {
+              "date": "2024-10-01",
+              "stars": 0
+            },
+            {
+              "date": "2025-01-01",
+              "stars": 0
+            },
+            {
+              "date": "2025-04-01",
+              "stars": 0
+            },
+            {
+              "date": "2025-07-01",
+              "stars": 0
+            },
+            {
+              "date": "2025-10-01",
+              "stars": 0
+            },
+            {
+              "date": "2026-01-01",
+              "stars": 1
+            },
+            {
+              "date": "2026-04-01",
+              "stars": 2
+            },
+            {
+              "date": "2026-07-01",
+              "stars": 7
+            }
+          ],
+          "created": "2025-10-24"
+        },
+        {
+          "repo": "SSWConsulting/SSW.EagleEye",
+          "name": "EagleEye",
+          "private": true,
+          "history": [
+            {
+              "date": "2024-07-01",
+              "stars": 3
+            },
+            {
+              "date": "2024-10-01",
+              "stars": 3
+            },
+            {
+              "date": "2025-01-01",
+              "stars": 3
+            },
+            {
+              "date": "2025-04-01",
+              "stars": 4
+            },
+            {
+              "date": "2025-07-01",
+              "stars": 5
+            },
+            {
+              "date": "2025-10-01",
+              "stars": 5
+            },
+            {
+              "date": "2026-01-01",
+              "stars": 7
+            },
+            {
+              "date": "2026-04-01",
+              "stars": 7
+            },
+            {
+              "date": "2026-07-01",
+              "stars": 7
+            }
+          ],
+          "created": "2023-09-19"
+        },
+        {
+          "repo": "SSWConsulting/SSW.Rewards.Mobile",
+          "name": "SSW.Rewards.Mobile",
+          "private": false,
+          "history": [
+            {
+              "date": "2024-07-01",
+              "stars": 29
+            },
+            {
+              "date": "2024-10-01",
+              "stars": 29
+            },
+            {
+              "date": "2025-01-01",
+              "stars": 29
+            },
+            {
+              "date": "2025-04-01",
+              "stars": 31
+            },
+            {
+              "date": "2025-07-01",
+              "stars": 34
+            },
+            {
+              "date": "2025-10-01",
+              "stars": 34
+            },
+            {
+              "date": "2026-01-01",
+              "stars": 36
+            },
+            {
+              "date": "2026-04-01",
+              "stars": 37
+            },
+            {
+              "date": "2026-07-01",
+              "stars": 37
+            }
+          ],
+          "created": "2019-09-22"
+        },
+        {
+          "repo": "SSWConsulting/SSW.Tiger",
+          "name": "SSW.Tiger",
+          "private": false,
+          "history": [
+            {
+              "date": "2024-07-01",
+              "stars": 0
+            },
+            {
+              "date": "2024-10-01",
+              "stars": 0
+            },
+            {
+              "date": "2025-01-01",
+              "stars": 0
+            },
+            {
+              "date": "2025-04-01",
+              "stars": 0
+            },
+            {
+              "date": "2025-07-01",
+              "stars": 0
+            },
+            {
+              "date": "2025-10-01",
+              "stars": 0
+            },
+            {
+              "date": "2026-01-01",
+              "stars": 0
+            },
+            {
+              "date": "2026-04-01",
+              "stars": 1
+            },
+            {
+              "date": "2026-07-01",
+              "stars": 1
+            }
+          ],
+          "created": "2026-01-23"
+        }
+      ]
+    },
+    {
+      "name": "TinaCMS",
+      "login": "tinacms",
+      "repos": [
+        {
+          "repo": "tinacms/tinacms",
+          "name": "TinaCMS",
+          "private": false,
+          "history": [
+            {
+              "date": "2024-07-01",
+              "stars": 11165
+            },
+            {
+              "date": "2024-10-01",
+              "stars": 11560
+            },
+            {
+              "date": "2025-01-01",
+              "stars": 11929
+            },
+            {
+              "date": "2025-04-01",
+              "stars": 12222
+            },
+            {
+              "date": "2025-07-01",
+              "stars": 12445
+            },
+            {
+              "date": "2025-10-01",
+              "stars": 12673
+            },
+            {
+              "date": "2026-01-01",
+              "stars": 12923
+            },
+            {
+              "date": "2026-04-01",
+              "stars": 13178
+            },
+            {
+              "date": "2026-07-01",
+              "stars": 13603
+            }
+          ],
+          "created": "2019-07-23"
+        },
+        {
+          "repo": "tinacms/tina.io",
+          "name": "Tina.io",
+          "private": false,
+          "history": [
+            {
+              "date": "2024-07-01",
+              "stars": 235
+            },
+            {
+              "date": "2024-10-01",
+              "stars": 241
+            },
+            {
+              "date": "2025-01-01",
+              "stars": 251
+            },
+            {
+              "date": "2025-04-01",
+              "stars": 259
+            },
+            {
+              "date": "2025-07-01",
+              "stars": 264
+            },
+            {
+              "date": "2025-10-01",
+              "stars": 268
+            },
+            {
+              "date": "2026-01-01",
+              "stars": 281
+            },
+            {
+              "date": "2026-04-01",
+              "stars": 290
+            },
+            {
+              "date": "2026-07-01",
+              "stars": 299
+            }
+          ],
+          "created": "2020-01-29"
+        },
+        {
+          "repo": "tinacms/tina-docs",
+          "name": "Tina Docs",
+          "private": false,
+          "history": [
+            {
+              "date": "2024-07-01",
+              "stars": 0
+            },
+            {
+              "date": "2024-10-01",
+              "stars": 0
+            },
+            {
+              "date": "2025-01-01",
+              "stars": 0
+            },
+            {
+              "date": "2025-04-01",
+              "stars": 0
+            },
+            {
+              "date": "2025-07-01",
+              "stars": 2
+            },
+            {
+              "date": "2025-10-01",
+              "stars": 3
+            },
+            {
+              "date": "2026-01-01",
+              "stars": 6
+            },
+            {
+              "date": "2026-04-01",
+              "stars": 8
+            },
+            {
+              "date": "2026-07-01",
+              "stars": 8
+            }
+          ],
+          "created": "2025-02-06"
+        }
+      ]
+    }
+  ]
+}

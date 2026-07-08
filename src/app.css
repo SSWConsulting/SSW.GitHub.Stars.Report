@@ -1,0 +1,184 @@
+/* App-level layout only. Colors/typography come from the SSW design system tokens. */
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-family-body, "Inter Variable", sans-serif);
+}
+
+.report-shell {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: var(--spacing-lg, 2rem) var(--spacing-md, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg, 2rem);
+}
+
+/* All links: underlined, smoothly transitioning to SSW red on hover. */
+.report-shell a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s ease;
+}
+.report-shell a:hover {
+  color: var(--text-brand, #cd4242);
+}
+/* The org logo image is a link but shouldn't be underlined. */
+.report-shell a.org-logo-link {
+  text-decoration: none;
+  display: inline-flex;
+}
+
+/* Never clip the last column on narrow viewports — scroll instead. */
+.table-scroll {
+  overflow-x: auto;
+}
+
+/* Fixed layout + explicit widths => both tables share identical columns. */
+.table-scroll table {
+  table-layout: fixed;
+  width: 100%;
+  min-width: 860px;
+}
+.table-scroll td {
+  vertical-align: top; /* body cells align to the top */
+}
+.table-scroll th {
+  vertical-align: middle;
+}
+/* Numeric headers right-align to match the values beneath them. */
+.table-scroll th:not(:first-child) {
+  text-align: right;
+}
+.table-scroll th:first-child,
+.table-scroll td:first-child {
+  width: 28%;
+}
+.table-scroll th:not(:first-child),
+.table-scroll td:not(:first-child) {
+  width: 14.4%;
+}
+
+/* Custom hover tooltip on headers: shows the date on hover, no cursor change. */
+.th-tip {
+  position: relative;
+}
+.th-tip::after {
+  content: attr(data-tip);
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: var(--foreground, #1f2430);
+  color: var(--background, #fff);
+  padding: 4px 9px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 400;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(-3px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  pointer-events: none;
+  z-index: 50;
+}
+.th-tip:hover::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.report-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md, 1rem);
+}
+
+.report-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md, 1rem);
+}
+
+.report-brand h1 {
+  margin: 0;
+  font-size: 1.4rem;
+  line-height: 1;
+  font-weight: 600;
+}
+
+.report-meta {
+  color: var(--text-weak, #666);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+/* "0" (no change) delta chip — light gray, not the dark secondary badge. */
+.delta-zero {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text-weak, #9aa0a6);
+  background: var(--fill-weak, #f1f2f4);
+  border-radius: 999px;
+  padding: 1px 9px;
+}
+
+/* Stack the value and the delta chip within a numeric cell. */
+.cell-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+/* Project cell: repo name (+ private tag) with a "Since …" line beneath. */
+.proj-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.proj-name {
+  display: flex;
+  align-items: center;
+}
+.proj-since {
+  font-size: 0.75rem;
+}
+
+/* Org logo + name heading above each table. */
+.org-head {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm, 0.6rem);
+}
+
+.org-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+/* Minimal footer: SSW logo + copyright, no links or menu. */
+.report-footer {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md, 1rem);
+  padding-top: var(--spacing-md, 1rem);
+  border-top: 1px solid var(--border, #e5e5e5);
+}
+
+.tag-private {
+  margin-left: 0.5rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-weak, #888);
+  border: 1px solid var(--border, #ddd);
+  border-radius: 999px;
+  padding: 1px 8px;
+  vertical-align: middle;
+}

@@ -1,0 +1,51 @@
+name: Star report
+
+on:
+  schedule:
+    - cron: "0 8 1 1,4,7,10 *" # 08:00 UTC on 1 Jan/Apr/Jul/Oct (quarterly) so the 3-month column stays real
+  workflow_dispatch: {} # allow manual runs to test
+
+permissions:
+  contents: write # commit the updated history file
+
+jobs:
+  checkpoint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Record star checkpoint
+        id: report
+        env:
+          # ORG_READ_TOKEN = a PAT with read access to the private SSW repos
+          # (YakShaver, EagleEye). Falls back to GITHUB_TOKEN for public repos.
+          # The repo list lives in stars-history.json, grouped by org.
+          GH_TOKEN: ${{ secrets.ORG_READ_TOKEN || secrets.GITHUB_TOKEN }}
+        run: python .github/scripts/star_report.py
+
+      - name: Commit updated history
+        run: |
+          git config user.name  "github-actions"
+          git config user.email "github-actions@github.com"
+          git add public/stars-history.json
+          git commit -m "Star checkpoint ${{ steps.report.outputs.date }}" || echo "no change"
+          git push
+
+      - name: Email a link to the report
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }} # Gmail App Password
+          from: Star Bot <${{ secrets.MAIL_USERNAME }}>
+          to: tiagov8@gmail.com
+          subject: "GitHub star report — ${{ steps.report.outputs.date }}"
+          html_body: |
+            <p>The quarterly GitHub star checkpoint has been saved.</p>
+            <a href="https://sswconsulting.github.io/${{ github.event.repository.name }}/"
+               style="background:#cc4141;color:#fff;padding:12px 20px;border-radius:6px;
+                      text-decoration:none;font-family:Inter,sans-serif;display:inline-block">
+              View the full report →
+            </a>
