@@ -12,8 +12,11 @@ import {
   SSWTableCell,
   SSWBadge,
   SSWLogo,
-  SSWNativeSelect,
-  SSWNativeSelectOption,
+  SSWSelect,
+  SSWSelectTrigger,
+  SSWSelectValue,
+  SSWSelectContent,
+  SSWSelectItem,
 } from "@sswconsulting/design-system";
 
 type Entry = { date: string; stars: number };
@@ -288,20 +291,28 @@ export default function Report() {
           <SSWLogo />
           <h1>GitHub Star Report</h1>
         </div>
-        <label className="sort-control">
+        <div className="sort-control">
           <span className="report-meta">Sort by</span>
-          <SSWNativeSelect
-            size="sm"
+          <SSWSelect
             value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as SortKey)}
+            onValueChange={(v) => setSortBy(v as SortKey)}
           >
-            {SORT_OPTIONS.map((o) => (
-              <SSWNativeSelectOption key={o.value} value={o.value}>
-                {o.label}
-              </SSWNativeSelectOption>
-            ))}
-          </SSWNativeSelect>
-        </label>
+            <SSWSelectTrigger size="sm" className="sort-trigger">
+              <SSWSelectValue>
+                {(value: string) =>
+                  SORT_OPTIONS.find((o) => o.value === value)?.label
+                }
+              </SSWSelectValue>
+            </SSWSelectTrigger>
+            <SSWSelectContent>
+              {SORT_OPTIONS.map((o) => (
+                <SSWSelectItem key={o.value} value={o.value}>
+                  {o.label}
+                </SSWSelectItem>
+              ))}
+            </SSWSelectContent>
+          </SSWSelect>
+        </div>
       </header>
 
       {error && <p>Could not load report data: {error}</p>}

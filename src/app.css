@@ -114,6 +114,10 @@ body {
   gap: 0.5rem;
 }
 
+.sort-trigger {
+  min-width: 230px; /* fits the longest option label */
+}
+
 .report-meta {
   color: var(--text-weak, #666);
   font-size: 0.85rem;
