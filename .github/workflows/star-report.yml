@@ -31,21 +31,32 @@ jobs:
           git commit -m "Star checkpoint ${{ steps.report.outputs.date }}" || echo "no change"
           git push
 
-      - name: Email a link to the report
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.gmail.com
-          server_port: 465
-          secure: true
-          username: ${{ secrets.MAIL_USERNAME }}
-          password: ${{ secrets.MAIL_PASSWORD }} # Gmail App Password
-          from: Star Bot <${{ secrets.MAIL_USERNAME }}>
-          to: tiagov8@gmail.com
-          subject: "GitHub star report — ${{ steps.report.outputs.date }}"
-          html_body: |
-            <p>The quarterly GitHub star checkpoint has been saved.</p>
-            <a href="https://sswconsulting.github.io/${{ github.event.repository.name }}/"
-               style="background:#cc4141;color:#fff;padding:12px 20px;border-radius:6px;
-                      text-decoration:none;font-family:Inter,sans-serif;display:inline-block">
-              View the full report →
-            </a>
+      - name: Notify Microsoft Teams
+        env:
+          # Create in Teams: channel ••• → Workflows → "Post to a channel when a
+          # webhook request is received" → paste the generated URL as this secret.
+          TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          DATE: ${{ steps.report.outputs.date }}
+          REPORT_URL: "https://sswconsulting.github.io/${{ github.event.repository.name }}/"
+        run: |
+          if [ -z "$TEAMS_WEBHOOK_URL" ]; then
+            echo "TEAMS_WEBHOOK_URL not set — skipping notification."; exit 0
+          fi
+          jq -n --arg date "$DATE" --arg url "$REPORT_URL" '{
+            type: "message",
+            attachments: [{
+              contentType: "application/vnd.microsoft.card.adaptive",
+              content: {
+                "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                type: "AdaptiveCard",
+                version: "1.4",
+                body: [
+                  { type: "TextBlock", size: "Large", weight: "Bolder", text: "📊 GitHub Star Report" },
+                  { type: "TextBlock", wrap: true, text: ("Quarterly checkpoint saved on **" + $date + "**.") }
+                ],
+                actions: [
+                  { type: "Action.OpenUrl", title: "View the full report →", url: $url }
+                ]
+              }
+            }]
+          }' | curl -sS -X POST "$TEAMS_WEBHOOK_URL" -H "Content-Type: application/json" -d @-
