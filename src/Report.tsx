@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   SSWCard,
   SSWCardHeader,
@@ -12,6 +12,8 @@ import {
   SSWTableCell,
   SSWBadge,
   SSWLogo,
+  SSWNativeSelect,
+  SSWNativeSelectOption,
 } from "@sswconsulting/design-system";
 
 type Entry = { date: string; stars: number };
@@ -27,6 +29,15 @@ type Data = { orgs: Org[] };
 
 // null = not loaded yet, "error" = live fetch failed (fall back to last checkpoint)
 type Live = Record<string, number | "error" | null>;
+
+type SortKey = "created" | "alpha" | "stars" | "new3mo";
+
+const SORT_OPTIONS: { value: SortKey; label: string }[] = [
+  { value: "created", label: "Date repo created" },
+  { value: "alpha", label: "Alphabetical" },
+  { value: "stars", label: "Most stars" },
+  { value: "new3mo", label: "Most new stars (last 3 months)" },
+];
 
 const MONTHS = [
   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -107,12 +118,47 @@ function valueAt(r: Repo, target: string): number | null {
   return e ? e.stars : null;
 }
 
-function OrgTable({ org, live }: { org: Org; live: Live }) {
+// Best-known current star count: live value if loaded, else last checkpoint.
+function currentStars(r: Repo, live: Live): number {
+  const l = live[r.repo];
+  if (typeof l === "number") return l;
+  return r.history.at(-1)?.stars ?? 0;
+}
+
+function sortRepos(repos: Repo[], sortBy: SortKey, live: Live, d3: string): Repo[] {
+  const arr = [...repos];
+  switch (sortBy) {
+    case "alpha":
+      return arr.sort((a, b) => a.name.localeCompare(b.name));
+    case "created": // newest repo first
+      return arr.sort((a, b) => b.created.localeCompare(a.created));
+    case "stars":
+      return arr.sort((a, b) => currentStars(b, live) - currentStars(a, live));
+    case "new3mo": {
+      const gain = (r: Repo) => currentStars(r, live) - (valueAt(r, d3) ?? 0);
+      return arr.sort((a, b) => gain(b) - gain(a));
+    }
+  }
+}
+
+function OrgTable({
+  org,
+  live,
+  sortBy,
+}: {
+  org: Org;
+  live: Live;
+  sortBy: SortKey;
+}) {
   const d24 = monthsAgoISO(24);
   const d12 = monthsAgoISO(12);
   const d6 = monthsAgoISO(6);
   const d3 = monthsAgoISO(3);
   const todayISO = toLocalISO(new Date());
+  const repos = useMemo(
+    () => sortRepos(org.repos, sortBy, live, d3),
+    [org.repos, sortBy, live, d3]
+  );
 
   return (
     <SSWCard>
@@ -161,7 +207,7 @@ function OrgTable({ org, live }: { org: Org; live: Live }) {
               </SSWTableRow>
             </SSWTableHeader>
             <SSWTableBody>
-              {org.repos.map((r) => {
+              {repos.map((r) => {
                 const v2 = valueAt(r, d24);
                 const v1 = valueAt(r, d12);
                 const v6 = valueAt(r, d6);
@@ -211,6 +257,7 @@ export default function Report() {
   const [data, setData] = useState<Data | null>(null);
   const [live, setLive] = useState<Live>({});
   const [error, setError] = useState<string | null>(null);
+  const [sortBy, setSortBy] = useState<SortKey>("stars");
 
   // 1. Load the saved checkpoint history (written by the 6-monthly cron).
   useEffect(() => {
@@ -241,12 +288,26 @@ export default function Report() {
           <SSWLogo />
           <h1>GitHub Star Report</h1>
         </div>
+        <label className="sort-control">
+          <span className="report-meta">Sort by</span>
+          <SSWNativeSelect
+            size="sm"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as SortKey)}
+          >
+            {SORT_OPTIONS.map((o) => (
+              <SSWNativeSelectOption key={o.value} value={o.value}>
+                {o.label}
+              </SSWNativeSelectOption>
+            ))}
+          </SSWNativeSelect>
+        </label>
       </header>
 
       {error && <p>Could not load report data: {error}</p>}
       {!data && !error && <p>Loading…</p>}
       {data?.orgs.map((org) => (
-        <OrgTable key={org.login} org={org} live={live} />
+        <OrgTable key={org.login} org={org} live={live} sortBy={sortBy} />
       ))}
 
       <footer className="report-footer">

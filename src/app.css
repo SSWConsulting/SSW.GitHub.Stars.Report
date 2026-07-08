@@ -108,6 +108,12 @@ body {
   font-weight: 600;
 }
 
+.sort-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .report-meta {
   color: var(--text-weak, #666);
   font-size: 0.85rem;
