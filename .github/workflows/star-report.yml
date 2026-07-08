@@ -2,7 +2,11 @@ name: Star report
 
 on:
   schedule:
-    - cron: "0 8 1 1,4,7,10 *" # 08:00 UTC on 1 Jan/Apr/Jul/Oct (quarterly) so the 3-month column stays real
+    # GitHub cron is UTC only, so these are converted to land at 10:00 in Sydney
+    # on 1 Jan / 1 Apr / 1 Jul / 1 Oct (Jan & Apr are AEDT +11, Jul & Oct AEST +10).
+    - cron: "0 0 1 7,10 *" # 10:00 AEST on 1 Jul & 1 Oct
+    - cron: "0 23 31 3 *" # 10:00 AEDT on 1 Apr (fires 31 Mar 23:00 UTC)
+    - cron: "0 23 31 12 *" # 10:00 AEDT on 1 Jan (fires 31 Dec 23:00 UTC)
   workflow_dispatch: {} # allow manual runs to test
 
 permissions:
@@ -11,6 +15,8 @@ permissions:
 jobs:
   checkpoint:
     runs-on: ubuntu-latest
+    env:
+      TZ: Australia/Sydney # so the recorded checkpoint date is the Sydney calendar day
     steps:
       - uses: actions/checkout@v4
 
@@ -53,11 +59,19 @@ jobs:
                 version: "1.4",
                 body: [
                   { type: "TextBlock", size: "Large", weight: "Bolder", text: "📊 GitHub Stars Report" },
-                  { type: "TextBlock", wrap: true, text: ("Quarterly checkpoint saved on **" + $date + "**.") }
+                  { type: "TextBlock", wrap: true, text: ("Quarterly checkpoint saved on **" + $date + "**.") },
+                  { type: "TextBlock", wrap: true, text: "cc <at>Adam Cogan</at> <at>Tiago Araujo</at> <at>Calum Simpson</at>" }
                 ],
                 actions: [
                   { type: "Action.OpenUrl", title: "View the full report →", url: $url }
-                ]
+                ],
+                msteams: {
+                  entities: [
+                    { type: "mention", text: "<at>Adam Cogan</at>",    mentioned: { id: "adam@ssw.com.au",  name: "Adam Cogan" } },
+                    { type: "mention", text: "<at>Tiago Araujo</at>",   mentioned: { id: "tiago@ssw.com.au", name: "Tiago Araujo" } },
+                    { type: "mention", text: "<at>Calum Simpson</at>",  mentioned: { id: "calum@ssw.com.au", name: "Calum Simpson" } }
+                  ]
+                }
               }
             }]
           }' | curl -sS -X POST "$TEAMS_WEBHOOK_URL" -H "Content-Type: application/json" -d @-
