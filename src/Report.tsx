@@ -33,7 +33,7 @@ type Live = Record<string, number | "error" | null>;
 type SortKey = "created" | "alpha" | "stars" | "new3mo";
 
 const SORT_OPTIONS: { value: SortKey; label: string }[] = [
-  { value: "created", label: "Date repo created" },
+  { value: "created", label: "Date created (oldest first)" },
   { value: "alpha", label: "Alphabetical" },
   { value: "stars", label: "Most stars" },
   { value: "new3mo", label: "Most new stars (last 3 months)" },
@@ -130,8 +130,8 @@ function sortRepos(repos: Repo[], sortBy: SortKey, live: Live, d3: string): Repo
   switch (sortBy) {
     case "alpha":
       return arr.sort((a, b) => a.name.localeCompare(b.name));
-    case "created": // newest repo first
-      return arr.sort((a, b) => b.created.localeCompare(a.created));
+    case "created": // oldest repo first
+      return arr.sort((a, b) => a.created.localeCompare(b.created));
     case "stars":
       return arr.sort((a, b) => currentStars(b, live) - currentStars(a, live));
     case "new3mo": {
