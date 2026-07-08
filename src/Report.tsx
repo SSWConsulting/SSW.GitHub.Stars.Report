@@ -33,10 +33,10 @@ type Live = Record<string, number | "error" | null>;
 type SortKey = "created" | "alpha" | "stars" | "new3mo";
 
 const SORT_OPTIONS: { value: SortKey; label: string }[] = [
-  { value: "created", label: "Date created (oldest first)" },
-  { value: "alpha", label: "Alphabetical" },
   { value: "stars", label: "Most stars" },
   { value: "new3mo", label: "Most new stars (last 3 months)" },
+  { value: "created", label: "Date created (oldest first)" },
+  { value: "alpha", label: "Alphabetical" },
 ];
 
 const MONTHS = [
