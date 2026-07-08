@@ -49,29 +49,35 @@ jobs:
             echo "TEAMS_WEBHOOK_URL not set — skipping notification."; exit 0
           fi
           PRETTY=$(date -d "$DATE" +"%d %b %Y") # ISO -> DD MMM YYYY (e.g. 08 Jul 2026)
-          jq -n --arg date "$PRETTY" --arg url "$REPORT_URL" '{
-            type: "message",
-            attachments: [{
-              contentType: "application/vnd.microsoft.card.adaptive",
-              content: {
-                "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-                type: "AdaptiveCard",
-                version: "1.4",
-                body: [
-                  { type: "TextBlock", size: "Large", weight: "Bolder", text: "📊 GitHub Stars Report" },
-                  { type: "TextBlock", wrap: true, text: ("Quarterly checkpoint saved on **" + $date + "**.") },
-                  { type: "TextBlock", wrap: true, text: "cc <at>Adam Cogan</at> <at>Tiago Araujo</at> <at>Calum Simpson</at>" }
-                ],
-                actions: [
-                  { type: "Action.OpenUrl", title: "View the full report →", url: $url }
-                ],
-                msteams: {
-                  entities: [
-                    { type: "mention", text: "<at>Adam Cogan</at>",    mentioned: { id: "adam@ssw.com.au",  name: "Adam Cogan" } },
-                    { type: "mention", text: "<at>Tiago Araujo</at>",   mentioned: { id: "tiago@ssw.com.au", name: "Tiago Araujo" } },
-                    { type: "mention", text: "<at>Calum Simpson</at>",  mentioned: { id: "calum@ssw.com.au", name: "Calum Simpson" } }
-                  ]
-                }
-              }
-            }]
-          }' | curl -sS -X POST "$TEAMS_WEBHOOK_URL" -H "Content-Type: application/json" -d @-
+          # Scheduled quarterly runs @mention everyone (always:false people are
+          # included only then); manual test runs mention Tiago only (always:true).
+          jq -n --arg date "$PRETTY" --arg url "$REPORT_URL" --arg event "$GITHUB_EVENT_NAME" '
+            ($event == "schedule") as $sched
+            | [
+                { name: "Adam Cogan",    id: "adamcogan@ssw.com.au",    always: false },
+                { name: "Tiago Araujo",  id: "tiagoaraujo@ssw.com.au",  always: true  },
+                { name: "Calum Simpson", id: "calumsimpson@ssw.com.au", always: false }
+              ]
+            | map(select(.always or $sched)) as $people
+            | {
+                type: "message",
+                attachments: [{
+                  contentType: "application/vnd.microsoft.card.adaptive",
+                  content: {
+                    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                    type: "AdaptiveCard",
+                    version: "1.4",
+                    body: [
+                      { type: "TextBlock", size: "Large", weight: "Bolder", text: "📊 GitHub Stars Report" },
+                      { type: "TextBlock", wrap: true, text: ("Quarterly checkpoint saved on **" + $date + "**.") },
+                      { type: "TextBlock", wrap: true, text: ("cc " + ([$people[] | "<at>" + .name + "</at>"] | join(" "))) }
+                    ],
+                    actions: [
+                      { type: "Action.OpenUrl", title: "View the full report →", url: $url }
+                    ],
+                    msteams: {
+                      entities: [ $people[] | { type: "mention", text: ("<at>" + .name + "</at>"), mentioned: { id: .id, name: .name } } ]
+                    }
+                  }
+                }]
+              }' | curl -sS -X POST "$TEAMS_WEBHOOK_URL" -H "Content-Type: application/json" -d @-
