@@ -322,10 +322,19 @@ export default function Report() {
       ))}
 
       <footer className="report-footer">
-        <SSWLogo />
-        <span className="report-meta">
-          © 1990–{new Date().getFullYear()} SSW. All rights reserved.
-        </span>
+        <a
+          href="https://github.com/SSWConsulting/SSW.GitHub.Stars.Report"
+          target="_blank"
+          rel="noreferrer"
+        >
+          See how it works on GitHub
+        </a>
+        <div className="footer-brand">
+          <SSWLogo />
+          <span className="report-meta">
+            © 1990–{new Date().getFullYear()} SSW. All rights reserved.
+          </span>
+        </div>
       </footer>
     </div>
   );

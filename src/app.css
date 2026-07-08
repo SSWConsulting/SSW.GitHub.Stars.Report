@@ -172,13 +172,20 @@ body {
   object-fit: contain;
 }
 
-/* Minimal footer: SSW logo + copyright, no links or menu. */
+/* Footer: repo link on the left, SSW logo + copyright on the right. */
 .report-footer {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: var(--spacing-md, 1rem);
   padding-top: var(--spacing-md, 1rem);
   border-top: 1px solid var(--border, #e5e5e5);
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md, 1rem);
 }
 
 .tag-private {
