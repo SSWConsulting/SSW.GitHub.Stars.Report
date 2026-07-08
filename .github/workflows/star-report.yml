@@ -51,7 +51,7 @@ jobs:
                 type: "AdaptiveCard",
                 version: "1.4",
                 body: [
-                  { type: "TextBlock", size: "Large", weight: "Bolder", text: "📊 GitHub Star Report" },
+                  { type: "TextBlock", size: "Large", weight: "Bolder", text: "📊 GitHub Stars Report" },
                   { type: "TextBlock", wrap: true, text: ("Quarterly checkpoint saved on **" + $date + "**.") }
                 ],
                 actions: [
