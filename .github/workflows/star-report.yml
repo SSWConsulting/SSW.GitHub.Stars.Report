@@ -27,7 +27,8 @@ jobs:
           # (YakShaver, EagleEye). Falls back to GITHUB_TOKEN for public repos.
           # The repo list lives in stars-history.json, grouped by org.
           GH_TOKEN: ${{ secrets.ORG_READ_TOKEN || secrets.GITHUB_TOKEN }}
-        run: python .github/scripts/star_report.py
+          REPORT_URL: "https://sswconsulting.github.io/${{ github.event.repository.name }}/"
+        run: python .github/scripts/star_report.py # also writes email.html
 
       - name: Commit updated history
         run: |
@@ -81,3 +82,29 @@ jobs:
                   }
                 }]
               }' | curl -sS -X POST "$TEAMS_WEBHOOK_URL" -H "Content-Type: application/json" -d @-
+
+      - name: Email the report (Power Automate)
+        env:
+          # A Power Automate flow: "When a webhook request is received" ->
+          # "Office 365 Outlook: Send an email (V2)". It reads { to, subject, html }
+          # and sends from the flow owner's mailbox (OAuth, no SMTP). If the
+          # secret is unset, this step is skipped.
+          EMAIL_WEBHOOK_URL: ${{ secrets.EMAIL_WEBHOOK_URL }}
+          # >>> EDIT recipients (semicolon-separated for Office 365) <<<
+          EMAIL_TO: "adamcogan@ssw.com.au;tiagoaraujo@ssw.com.au;calumsimpson@ssw.com.au"
+          DATE: ${{ steps.report.outputs.date }}
+        run: |
+          if [ -z "$EMAIL_WEBHOOK_URL" ]; then
+            echo "EMAIL_WEBHOOK_URL not set — skipping email."; exit 0
+          fi
+          [ -f email.html ] || { echo "email.html missing — skipping."; exit 0; }
+          # Manual test runs go to Tiago only; scheduled runs use the full list.
+          if [ "$GITHUB_EVENT_NAME" != "schedule" ]; then
+            EMAIL_TO="tiagoaraujo@ssw.com.au"
+          fi
+          PRETTY=$(date -d "$DATE" +"%d %b %Y")
+          jq -n --arg to "$EMAIL_TO" \
+                --arg subject "GitHub Stars Report - $PRETTY" \
+                --rawfile html email.html \
+                '{ to: $to, subject: $subject, html: $html }' \
+            | curl -sS -X POST "$EMAIL_WEBHOOK_URL" -H "Content-Type: application/json" -d @-
