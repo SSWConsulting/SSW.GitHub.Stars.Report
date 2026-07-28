@@ -207,6 +207,21 @@ body {
   gap: var(--spacing-md, 1rem);
 }
 
+/* Footer repo link: GitHub icon + repo name (only the name is underlined). */
+.report-shell a.footer-repo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+}
+.footer-repo svg {
+  flex-shrink: 0;
+}
+.footer-repo span {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .tag-private {
   margin-left: 0.5rem;
   font-size: 0.7rem;
