@@ -102,7 +102,7 @@ def current_cell(value, three_mo) -> str:
     )
 
 
-def org_table(org, d12, d6, d3) -> str:
+def org_table(org, d6, d3) -> str:
     th = ('padding:8px 10px;border-bottom:2px solid #cc4141;'
           'font-size:13px;color:#57606a;text-align:right;')
     rows = ""
@@ -118,7 +118,7 @@ def org_table(org, d12, d6, d3) -> str:
             f'<td style="padding:8px 10px;border-bottom:1px solid #eee;">'
             f'<a href="https://github.com/{r["repo"]}" '
             f'style="color:#1f2430;text-decoration:none;">{name}</a></td>'
-            f'{cell(value_at(r, d12))}{cell(value_at(r, d6))}{cell(v3)}'
+            f'{cell(value_at(r, d6))}{cell(v3)}'
             f'{current_cell(current, v3)}'
             '</tr>'
         )
@@ -128,7 +128,6 @@ def org_table(org, d12, d6, d3) -> str:
         'style="border-collapse:collapse;width:100%;font-size:14px;">'
         '<tr style="background:#f6f8fa;">'
         f'<th style="{th}text-align:left;">Repo</th>'
-        f'<th style="{th}">1 year ago</th>'
         f'<th style="{th}">6 months ago</th>'
         f'<th style="{th}">3 months ago</th>'
         f'<th style="{th}">Current</th>'
@@ -137,8 +136,8 @@ def org_table(org, d12, d6, d3) -> str:
 
 
 def build_email(data) -> str:
-    d12, d6, d3 = months_ago(12), months_ago(6), months_ago(3)
-    tables = "".join(org_table(o, d12, d6, d3) for o in data["orgs"])
+    d6, d3 = months_ago(6), months_ago(3)
+    tables = "".join(org_table(o, d6, d3) for o in data["orgs"])
     btn = (
         'background:#cc4141;color:#fff;padding:10px 18px;border-radius:6px;'
         'text-decoration:none;font-size:14px;display:inline-block;'
@@ -146,16 +145,17 @@ def build_email(data) -> str:
     return (
         '<div style="font-family:Arial,Helvetica,sans-serif;color:#1f2430;'
         'max-width:760px;margin:0 auto;">'
-        '<p style="margin:0 0 12px;">Hi Adam,</p>'
+        '<h3 style="color:#cc4141;font-size:16px;margin:0 0 12px;">Hi Adam,</h3>'
         f'<p style="color:#555;font-size:14px;margin:0 0 16px;">'
         f'Below is a snapshot of the GitHub &ldquo;star&rdquo; numbers as of today '
-        f'(<b>{fmt_date(TODAY)}</b>). The live version always shows the latest numbers.</p>'
-        '<h2 style="margin:0 0 8px;">&#128202; GitHub Stars Report</h2>'
-        '<hr style="border:none;border-top:1px solid #e5e5e5;margin:0 0 16px;">'
-        f'<p style="margin:0 0 4px;"><a href="{REPORT_URL}" style="{btn}">'
+        f'(<b>{fmt_date(TODAY)}</b>).<br>'
+        f'The live version always shows the latest numbers.</p>'
+        f'<p style="margin:0 0 20px;"><a href="{REPORT_URL}" style="{btn}">'
         'View the live report &rarr;</a></p>'
+        '<h2 style="font-size:15px;margin:0 0 4px;">&#128202; GitHub Stars Report</h2>'
         f'{tables}'
-        '<p style="color:#888;font-size:12px;margin-top:24px;">'
+        '<p style="margin:22px 0 0;">Cheers,</p>'
+        '<p style="color:#888;font-size:12px;margin-top:16px;">'
         'Sent automatically every quarter.</p>'
         '</div>'
     )
