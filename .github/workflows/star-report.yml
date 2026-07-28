@@ -85,26 +85,22 @@ jobs:
 
       - name: Email the report (Power Automate)
         env:
-          # A Power Automate flow: "When a webhook request is received" ->
-          # "Office 365 Outlook: Send an email (V2)". It reads { to, subject, html }
-          # and sends from the flow owner's mailbox (OAuth, no SMTP). If the
-          # secret is unset, this step is skipped.
+          # Power Automate flow: "When a Teams webhook request is received" ->
+          # "Office 365 Outlook: Send an email (V2)". It reads { subject, html } and
+          # sends from the flow owner's mailbox (OAuth, no SMTP). Recipients (To =
+          # Adam, CC = Tiago + Calum) are configured inside the flow, not here.
+          # If the secret is unset, this step is skipped.
           EMAIL_WEBHOOK_URL: ${{ secrets.EMAIL_WEBHOOK_URL }}
-          # >>> EDIT recipients (semicolon-separated for Office 365) <<<
-          EMAIL_TO: "adamcogan@ssw.com.au;tiagoaraujo@ssw.com.au;calumsimpson@ssw.com.au"
           DATE: ${{ steps.report.outputs.date }}
         run: |
           if [ -z "$EMAIL_WEBHOOK_URL" ]; then
             echo "EMAIL_WEBHOOK_URL not set — skipping email."; exit 0
           fi
           [ -f email.html ] || { echo "email.html missing — skipping."; exit 0; }
-          # Manual test runs go to Tiago only; scheduled runs use the full list.
-          if [ "$GITHUB_EVENT_NAME" != "schedule" ]; then
-            EMAIL_TO="tiagoaraujo@ssw.com.au"
-          fi
-          PRETTY=$(date -d "$DATE" +"%d %b %Y")
-          jq -n --arg to "$EMAIL_TO" \
-                --arg subject "GitHub Stars Report - $PRETTY" \
+          # Quarter number from the run month: Jan=1, Apr=2, Jul=3, Oct=4.
+          QNUM=$(( ( $(date -d "$DATE" +%-m) - 1) / 3 + 1 ))
+          YEAR=$(date -d "$DATE" +%Y)
+          jq -n --arg subject "Quarterly (#${QNUM} of ${YEAR}) GitHub Stars Report - SSW + TinaCMS" \
                 --rawfile html email.html \
-                '{ to: $to, subject: $subject, html: $html }' \
+                '{ subject: $subject, html: $html }' \
             | curl -sS -X POST "$EMAIL_WEBHOOK_URL" -H "Content-Type: application/json" -d @-

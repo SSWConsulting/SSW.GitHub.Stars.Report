@@ -146,16 +146,17 @@ def build_email(data) -> str:
     return (
         '<div style="font-family:Arial,Helvetica,sans-serif;color:#1f2430;'
         'max-width:760px;margin:0 auto;">'
-        '<h2 style="margin:0 0 4px;">&#128202; GitHub Stars Report</h2>'
+        '<p style="margin:0 0 12px;">Hi Adam,</p>'
         f'<p style="color:#555;font-size:14px;margin:0 0 16px;">'
-        f'A snapshot as of <b>{fmt_date(TODAY)}</b>. This report is updated '
-        f'constantly &mdash; the live version always shows the latest numbers.</p>'
+        f'Below is a snapshot of the GitHub &ldquo;star&rdquo; numbers as of today '
+        f'(<b>{fmt_date(TODAY)}</b>). The live version always shows the latest numbers.</p>'
+        '<h2 style="margin:0 0 8px;">&#128202; GitHub Stars Report</h2>'
+        '<hr style="border:none;border-top:1px solid #e5e5e5;margin:0 0 16px;">'
         f'<p style="margin:0 0 4px;"><a href="{REPORT_URL}" style="{btn}">'
         'View the live report &rarr;</a></p>'
         f'{tables}'
         '<p style="color:#888;font-size:12px;margin-top:24px;">'
-        'Sent automatically every quarter. Numbers update live at '
-        f'<a href="{REPORT_URL}" style="color:#cc4141;">the report page</a>.</p>'
+        'Sent automatically every quarter.</p>'
         '</div>'
     )
 
