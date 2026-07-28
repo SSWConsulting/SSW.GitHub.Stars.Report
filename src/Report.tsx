@@ -189,7 +189,7 @@ function OrgTable({
               </a>
             </SSWCardTitle>
             <span className="org-stats report-meta">
-              {org.repos.length} repos · {totalStars.toLocaleString()} stars
+              {org.repos.length} repos · {totalStars.toLocaleString()} stars in total
             </span>
           </div>
         </div>
@@ -200,6 +200,7 @@ function OrgTable({
             <SSWTableHeader>
               <SSWTableRow>
                 <SSWTableHead>Repo</SSWTableHead>
+                <SSWTableHead>Created on</SSWTableHead>
                 <SSWTableHead numeric>
                   <span className="th-tip" data-tip={`As of ${fmtDate(d24)}`}>2 years ago</span>
                 </SSWTableHead>
@@ -232,21 +233,21 @@ function OrgTable({
                 return (
                   <SSWTableRow key={r.repo}>
                     <SSWTableCell>
-                      <div className="proj-cell">
-                        <span className="proj-name">
-                          <a
-                            href={`https://github.com/${r.repo}`}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            {r.name}
-                          </a>
-                          {r.private && <span className="tag-private">private</span>}
-                        </span>
-                        <span className="report-meta proj-since">
-                          Since {fmtDate(r.created)}
-                        </span>
-                      </div>
+                      <span className="proj-name">
+                        <a
+                          href={`https://github.com/${r.repo}`}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {r.name}
+                        </a>
+                        {r.private && <span className="tag-private">private</span>}
+                      </span>
+                    </SSWTableCell>
+                    <SSWTableCell>
+                      <span className="report-meta proj-since">
+                        {fmtDate(r.created)}
+                      </span>
                     </SSWTableCell>
                     <Cell value={v2} prev={null} />
                     <Cell value={v1} prev={v2} />

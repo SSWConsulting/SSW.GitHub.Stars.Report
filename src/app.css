@@ -31,34 +31,51 @@ body {
   display: inline-flex;
 }
 
-/* Never clip the last column on narrow viewports — scroll instead. */
+/* Only clip/scroll when the viewport is too narrow for the table. On desktop we
+   keep overflow visible so the header tooltips can appear above without clipping. */
 .table-scroll {
-  overflow-x: auto;
+  overflow-x: visible;
+}
+@media (max-width: 1000px) {
+  .table-scroll {
+    overflow-x: auto;
+  }
 }
 
 /* Fixed layout + explicit widths => both tables share identical columns. */
 .table-scroll table {
   table-layout: fixed;
   width: 100%;
-  min-width: 860px;
+  min-width: 940px;
 }
 .table-scroll td {
   vertical-align: top; /* body cells align to the top */
 }
 .table-scroll th {
   vertical-align: middle;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
-/* Numeric headers right-align to match the values beneath them. */
-.table-scroll th:not(:first-child) {
+/* Star columns (3rd onward) are numeric → right-aligned. Repo + Created on stay left. */
+.table-scroll th:nth-child(n + 3) {
   text-align: right;
 }
 .table-scroll th:first-child,
 .table-scroll td:first-child {
-  width: 34%;
+  width: 22%; /* Repo */
 }
-.table-scroll th:not(:first-child),
-.table-scroll td:not(:first-child) {
-  width: 13.2%;
+.table-scroll th:nth-child(2),
+.table-scroll td:nth-child(2) {
+  width: 12%; /* Created on */
+}
+.table-scroll th:nth-child(n + 3),
+.table-scroll td:nth-child(n + 3) {
+  width: 13.2%; /* five star columns */
+}
+/* Highlight the last (Current) column. */
+.table-scroll th:last-child,
+.table-scroll td:last-child {
+  background: rgba(205, 66, 66, 0.06);
 }
 
 /* Custom hover tooltip on headers: shows the date on hover, no cursor change. */
@@ -68,7 +85,7 @@ body {
 .th-tip::after {
   content: attr(data-tip);
   position: absolute;
-  top: calc(100% + 6px);
+  bottom: calc(100% + 6px);
   right: 0;
   background: var(--foreground, #1f2430);
   color: var(--background, #fff);
@@ -76,9 +93,11 @@ body {
   border-radius: 6px;
   font-size: 0.72rem;
   font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
   white-space: nowrap;
   opacity: 0;
-  transform: translateY(-3px);
+  transform: translateY(3px);
   transition: opacity 0.15s ease, transform 0.15s ease;
   pointer-events: none;
   z-index: 50;
