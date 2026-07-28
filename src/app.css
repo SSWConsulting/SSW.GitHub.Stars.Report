@@ -31,15 +31,9 @@ body {
   display: inline-flex;
 }
 
-/* Only clip/scroll when the viewport is too narrow for the table. On desktop we
-   keep overflow visible so the header tooltips can appear above without clipping. */
+/* The SSWTable handles horizontal scroll internally; keep this wrapper open. */
 .table-scroll {
-  overflow-x: visible;
-}
-@media (max-width: 1000px) {
-  .table-scroll {
-    overflow-x: auto;
-  }
+  overflow: visible;
 }
 
 /* Fixed layout + explicit widths => both tables share identical columns. */
@@ -55,6 +49,7 @@ body {
   vertical-align: middle;
   text-transform: uppercase;
   letter-spacing: 0.03em;
+  font-size: 0.72rem;
 }
 /* Star columns (3rd onward) are numeric → right-aligned. Repo + Created on stay left. */
 .table-scroll th:nth-child(n + 3) {
@@ -72,39 +67,15 @@ body {
 .table-scroll td:nth-child(n + 3) {
   width: 13.2%; /* five star columns */
 }
-/* Highlight the last (Current) column. */
+/* Highlight the last (Current) column with a subtle grey. */
 .table-scroll th:last-child,
 .table-scroll td:last-child {
-  background: rgba(205, 66, 66, 0.06);
+  background: rgba(0, 0, 0, 0.04);
 }
 
-/* Custom hover tooltip on headers: shows the date on hover, no cursor change. */
+/* Header tooltip trigger (portaled tooltip via SSWTooltip handles the popup). */
 .th-tip {
-  position: relative;
-}
-.th-tip::after {
-  content: attr(data-tip);
-  position: absolute;
-  bottom: calc(100% + 6px);
-  right: 0;
-  background: var(--foreground, #1f2430);
-  color: var(--background, #fff);
-  padding: 4px 9px;
-  border-radius: 6px;
-  font-size: 0.72rem;
-  font-weight: 400;
-  letter-spacing: normal;
-  text-transform: none;
-  white-space: nowrap;
-  opacity: 0;
-  transform: translateY(3px);
-  transition: opacity 0.15s ease, transform 0.15s ease;
-  pointer-events: none;
-  z-index: 50;
-}
-.th-tip:hover::after {
-  opacity: 1;
-  transform: translateY(0);
+  cursor: default;
 }
 
 .report-head {

@@ -17,6 +17,10 @@ import {
   SSWSelectValue,
   SSWSelectContent,
   SSWSelectItem,
+  SSWTooltip,
+  SSWTooltipTrigger,
+  SSWTooltipContent,
+  SSWTooltipProvider,
 } from "@sswconsulting/design-system";
 
 type Entry = { date: string; stars: number };
@@ -76,6 +80,16 @@ function asOf(history: Entry[], target: string): Entry | null {
     else break;
   }
   return found;
+}
+
+// A numeric column header with a portaled tooltip showing the exact date.
+function HeadTip({ label, date }: { label: string; date: string }) {
+  return (
+    <SSWTooltip>
+      <SSWTooltipTrigger render={<span className="th-tip">{label}</span>} />
+      <SSWTooltipContent side="top">As of {date}</SSWTooltipContent>
+    </SSWTooltip>
+  );
 }
 
 function Delta({ from, to }: { from: number | null; to: number | null }) {
@@ -202,19 +216,19 @@ function OrgTable({
                 <SSWTableHead>Repo</SSWTableHead>
                 <SSWTableHead>Created on</SSWTableHead>
                 <SSWTableHead numeric>
-                  <span className="th-tip" data-tip={`As of ${fmtDate(d24)}`}>2 years ago</span>
+                  <HeadTip label="2 years ago" date={fmtDate(d24)} />
                 </SSWTableHead>
                 <SSWTableHead numeric>
-                  <span className="th-tip" data-tip={`As of ${fmtDate(d12)}`}>1 year ago</span>
+                  <HeadTip label="1 year ago" date={fmtDate(d12)} />
                 </SSWTableHead>
                 <SSWTableHead numeric>
-                  <span className="th-tip" data-tip={`As of ${fmtDate(d6)}`}>6 months ago</span>
+                  <HeadTip label="6 months ago" date={fmtDate(d6)} />
                 </SSWTableHead>
                 <SSWTableHead numeric>
-                  <span className="th-tip" data-tip={`As of ${fmtDate(d3)}`}>3 months ago</span>
+                  <HeadTip label="3 months ago" date={fmtDate(d3)} />
                 </SSWTableHead>
                 <SSWTableHead numeric>
-                  <span className="th-tip" data-tip={`As of ${fmtDate(todayISO)}`}>Current</span>
+                  <HeadTip label="Current" date={fmtDate(todayISO)} />
                 </SSWTableHead>
               </SSWTableRow>
             </SSWTableHeader>
@@ -225,10 +239,16 @@ function OrgTable({
                 const v6 = valueAt(r, d6);
                 const v3 = valueAt(r, d3);
                 const l = live[r.repo];
-                // Only show a live number. If it can't be read (e.g. private
-                // repo on a public page), show a dash rather than a stale value.
-                const current = typeof l === "number" ? l : null;
-                const liveLoading = l === undefined;
+                // Live value when we have it; otherwise fall back to the last
+                // recorded checkpoint (e.g. GitHub's anonymous rate limit — 60/hr
+                // per IP — was hit). Private repos have no readable live value on
+                // a public page, so they show "private".
+                const current =
+                  typeof l === "number"
+                    ? l
+                    : r.private
+                    ? null
+                    : r.history.at(-1)?.stars ?? null;
 
                 return (
                   <SSWTableRow key={r.repo}>
@@ -256,7 +276,6 @@ function OrgTable({
                     <Cell
                       value={current}
                       prev={v3}
-                      loading={liveLoading}
                       emptyLabel={r.private ? "private" : "—"}
                     />
                   </SSWTableRow>
@@ -299,6 +318,7 @@ export default function Report() {
   }, [data]);
 
   return (
+    <SSWTooltipProvider delay={0}>
     <div className="report-shell">
       <header className="report-head">
         <div className="report-brand">
@@ -357,5 +377,6 @@ export default function Report() {
         </div>
       </footer>
     </div>
+    </SSWTooltipProvider>
   );
 }
