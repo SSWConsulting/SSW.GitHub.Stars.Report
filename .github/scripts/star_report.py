@@ -102,9 +102,11 @@ def current_cell(value, three_mo) -> str:
     )
 
 
-def org_table(org, d6, d3) -> str:
+def org_table(org, d3) -> str:
+    # Uppercase, non-bold headers.
     th = ('padding:8px 10px;border-bottom:2px solid #cc4141;'
-          'font-size:13px;color:#57606a;text-align:right;')
+          'font-size:12px;color:#57606a;text-align:right;'
+          'text-transform:uppercase;font-weight:normal;letter-spacing:0.03em;')
     rows = ""
     for r in org["repos"]:
         current = r["history"][-1]["stars"] if r.get("history") else None
@@ -118,26 +120,26 @@ def org_table(org, d6, d3) -> str:
             f'<td style="padding:8px 10px;border-bottom:1px solid #eee;">'
             f'<a href="https://github.com/{r["repo"]}" '
             f'style="color:#1f2430;text-decoration:none;">{name}</a></td>'
-            f'{cell(value_at(r, d6))}{cell(v3)}'
-            f'{current_cell(current, v3)}'
+            f'{cell(v3)}{current_cell(current, v3)}'
             '</tr>'
         )
+    # table-layout:fixed + explicit widths => the 3-month & current columns are
+    # the same size in both org tables (SSW and TinaCMS).
     return (
         f'<h3 style="margin:22px 0 6px;font-size:16px;">{org["name"]}</h3>'
         '<table cellspacing="0" cellpadding="0" '
-        'style="border-collapse:collapse;width:100%;font-size:14px;">'
+        'style="border-collapse:collapse;width:100%;font-size:14px;table-layout:fixed;">'
         '<tr style="background:#f6f8fa;">'
-        f'<th style="{th}text-align:left;">Repo</th>'
-        f'<th style="{th}">6 months ago</th>'
-        f'<th style="{th}">3 months ago</th>'
-        f'<th style="{th}">Current</th>'
+        f'<th style="{th}text-align:left;width:46%;">Repo</th>'
+        f'<th style="{th}width:27%;">3 months ago</th>'
+        f'<th style="{th}width:27%;">Current</th>'
         f'</tr>{rows}</table>'
     )
 
 
 def build_email(data) -> str:
-    d6, d3 = months_ago(6), months_ago(3)
-    tables = "".join(org_table(o, d6, d3) for o in data["orgs"])
+    d3 = months_ago(3)
+    tables = "".join(org_table(o, d3) for o in data["orgs"])
     btn = (
         'background:#cc4141;color:#fff;padding:10px 18px;border-radius:6px;'
         'text-decoration:none;font-size:14px;display:inline-block;'
@@ -156,7 +158,9 @@ def build_email(data) -> str:
         '<h2 style="font-size:15px;margin:0 0 4px;">&#128200; GitHub Stars Report</h2>'
         f'{tables}'
         '<p style="color:#888;font-size:12px;margin:22px 0 0;">'
-        'Sent automatically every quarter.</p>'
+        'Sent automatically every quarter &middot; '
+        '<a href="https://github.com/SSWConsulting/SSW.GitHub.Stars.Report" '
+        'style="color:#cc4141;">SSWConsulting/SSW.GitHub.Stars.Report</a></p>'
         '<p style="margin:12px 0 0;">Cheers,</p>'
         '</div>'
     )
