@@ -7,7 +7,7 @@ body {
 }
 
 .report-shell {
-  max-width: 1040px;
+  max-width: 1240px;
   margin: 0 auto;
   padding: var(--spacing-lg, 2rem) var(--spacing-md, 1rem);
   display: flex;
@@ -54,11 +54,11 @@ body {
 }
 .table-scroll th:first-child,
 .table-scroll td:first-child {
-  width: 28%;
+  width: 34%;
 }
 .table-scroll th:not(:first-child),
 .table-scroll td:not(:first-child) {
-  width: 14.4%;
+  width: 13.2%;
 }
 
 /* Custom hover tooltip on headers: shows the date on hover, no cursor change. */
@@ -108,6 +108,11 @@ body {
   font-weight: 600;
 }
 
+.report-emoji {
+  font-size: 1.9rem;
+  line-height: 1;
+}
+
 .sort-control {
   display: flex;
   align-items: center;
@@ -136,26 +141,40 @@ body {
   padding: 1px 9px;
 }
 
-/* Stack the value and the delta chip within a numeric cell. */
+/* Numeric cell: value and its delta chip on one line (delta inline). */
 .cell-stack {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 2px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
 }
 
-/* Project cell: repo name (+ private tag) with a "Since …" line beneath. */
+/* Project cell: repo name (+ private tag) and "Since …" on one line. */
 .proj-cell {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 .proj-name {
-  display: flex;
+  display: inline-flex;
   align-items: center;
 }
 .proj-since {
   font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+/* Org name + repo/star totals beneath it. */
+.org-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.org-stats {
+  font-size: 0.8rem;
 }
 
 /* Org logo + name heading above each table. */

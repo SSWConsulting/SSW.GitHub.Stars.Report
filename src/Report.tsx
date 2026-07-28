@@ -162,6 +162,7 @@ function OrgTable({
     () => sortRepos(org.repos, sortBy, live, d3),
     [org.repos, sortBy, live, d3]
   );
+  const totalStars = org.repos.reduce((s, r) => s + currentStars(r, live), 0);
 
   return (
     <SSWCard>
@@ -179,11 +180,16 @@ function OrgTable({
               alt={`${org.name} logo`}
             />
           </a>
-          <SSWCardTitle>
-            <a href={`https://github.com/${org.login}`} target="_blank" rel="noreferrer">
-              {org.name}
-            </a>
-          </SSWCardTitle>
+          <div className="org-heading">
+            <SSWCardTitle>
+              <a href={`https://github.com/${org.login}`} target="_blank" rel="noreferrer">
+                {org.name}
+              </a>
+            </SSWCardTitle>
+            <span className="org-stats report-meta">
+              {org.repos.length} repos · {totalStars.toLocaleString()} stars
+            </span>
+          </div>
         </div>
       </SSWCardHeader>
       <SSWCardContent>
@@ -288,7 +294,9 @@ export default function Report() {
     <div className="report-shell">
       <header className="report-head">
         <div className="report-brand">
-          <SSWLogo />
+          <span className="report-emoji" role="img" aria-label="chart increasing">
+            📈
+          </span>
           <h1>GitHub Star Report</h1>
         </div>
         <div className="sort-control">

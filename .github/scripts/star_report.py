@@ -152,11 +152,12 @@ def build_email(data) -> str:
         f'The live version always shows the latest numbers.</p>'
         f'<p style="margin:0 0 20px;"><a href="{REPORT_URL}" style="{btn}">'
         'View the live report &rarr;</a></p>'
-        '<h2 style="font-size:15px;margin:0 0 4px;">&#128202; GitHub Stars Report</h2>'
+        '<hr style="border:none;border-top:1px solid #e5e5e5;margin:20px 0 16px;">'
+        '<h2 style="font-size:15px;margin:0 0 4px;">&#128200; GitHub Stars Report</h2>'
         f'{tables}'
-        '<p style="margin:22px 0 0;">Cheers,</p>'
-        '<p style="color:#888;font-size:12px;margin-top:16px;">'
+        '<p style="color:#888;font-size:12px;margin:22px 0 0;">'
         'Sent automatically every quarter.</p>'
+        '<p style="margin:12px 0 0;">Cheers,</p>'
         '</div>'
     )
 

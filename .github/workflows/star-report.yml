@@ -100,7 +100,7 @@ jobs:
           # Quarter number from the run month: Jan=1, Apr=2, Jul=3, Oct=4.
           QNUM=$(( ( $(date -d "$DATE" +%-m) - 1) / 3 + 1 ))
           YEAR=$(date -d "$DATE" +%Y)
-          jq -n --arg subject "GitHub Stars Quarterly Report (#${QNUM} of ${YEAR}) | SSW + TinaCMS" \
+          jq -n --arg subject "📈 GitHub Stars Quarterly Report (#${QNUM} of ${YEAR}) | SSW + TinaCMS" \
                 --rawfile html email.html \
                 '{ subject: $subject, html: $html }' \
             | curl -sS -X POST "$EMAIL_WEBHOOK_URL" -H "Content-Type: application/json" -d @-
