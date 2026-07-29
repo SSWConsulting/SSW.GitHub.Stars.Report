@@ -325,7 +325,7 @@ export default function Report() {
           <span className="report-emoji" role="img" aria-label="chart increasing">
             📈
           </span>
-          <h1>GitHub Star Report</h1>
+          <h1>SSW GitHub Star Report</h1>
         </div>
         <div className="sort-control">
           <span className="report-meta">Sort by</span>
