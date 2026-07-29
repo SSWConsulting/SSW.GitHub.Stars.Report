@@ -261,10 +261,21 @@ body {
     font-size: 1.25rem;
   }
 
+  /* Reclaim width: less page padding + let the tables bleed to the card edges. */
+  .report-shell {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  .table-scroll {
+    margin-left: -1rem;
+    margin-right: -1rem;
+  }
+
   /* Collapse the table to the essentials: Repo · 3 months ago · Current. */
   .table-scroll table {
-    table-layout: auto;
+    table-layout: fixed;
     min-width: 0;
+    width: 100%;
   }
   .table-scroll th:nth-child(1),
   .table-scroll td:nth-child(1), /* # */
@@ -280,15 +291,18 @@ body {
     display: none;
   }
   .table-scroll th:nth-child(2),
-  .table-scroll td:nth-child(2), /* Repo */
+  .table-scroll td:nth-child(2) {
+    width: 42%; /* Repo */
+  }
   .table-scroll th:nth-child(7),
-  .table-scroll td:nth-child(7), /* 3 months ago */
+  .table-scroll td:nth-child(7) {
+    width: 26%; /* 3 months ago */
+  }
   .table-scroll th:nth-child(8),
   .table-scroll td:nth-child(8) {
-    /* Current */
-    width: auto;
+    width: 32%; /* Current */
   }
-  /* Tighten so the three columns fit without horizontal scroll. */
+  /* Tighten padding + smaller headers. */
   .table-scroll th,
   .table-scroll td {
     padding-left: 8px;
@@ -298,8 +312,12 @@ body {
     font-size: 0.62rem;
     letter-spacing: 0;
   }
+  /* Repo names: one line, ellipsis instead of an awkward mid-word wrap. */
   .proj-name {
-    overflow-wrap: anywhere; /* allow long repo names to wrap */
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   /* Hide the 3-months delta on mobile — its prior column (6 months) is hidden,
      so the +/- has nothing meaningful to compare against. Current keeps its delta. */
