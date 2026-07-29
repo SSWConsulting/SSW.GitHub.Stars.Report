@@ -267,8 +267,8 @@ body {
     padding-right: 0.5rem;
   }
   .table-scroll {
-    margin-left: -1rem;
-    margin-right: -1rem;
+    margin-left: -0.5rem; /* reclaim half the card padding, keep ~8px breathing room */
+    margin-right: -0.5rem;
   }
 
   /* Collapse the table to the essentials: Repo · 3 months ago · Current. */
