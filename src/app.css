@@ -173,10 +173,10 @@ body {
   font-weight: 600;
 }
 
-/* Subtle totals caption placed under the table. */
+/* Totals — pushed to the right of the org header. */
 .org-stats {
-  margin: 12px 2px 0;
-  font-size: 0.8rem;
+  margin: 0 0 0 auto;
+  font-size: 0.85rem;
   text-align: right;
 }
 
@@ -185,6 +185,7 @@ body {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm, 0.6rem);
+  flex-wrap: wrap;
 }
 
 .org-logo {

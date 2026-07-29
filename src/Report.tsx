@@ -199,6 +199,9 @@ function OrgTable({
               {org.name}
             </a>
           </SSWCardTitle>
+          <p className="org-stats report-meta">
+            Total Stars: <strong>{totalStars.toLocaleString()}</strong> ⭐
+          </p>
         </div>
       </SSWCardHeader>
       <SSWCardContent>
@@ -282,9 +285,6 @@ function OrgTable({
             </SSWTableBody>
           </SSWTable>
         </div>
-        <p className="org-stats report-meta">
-          Total Stars: <strong>{totalStars.toLocaleString()}</strong> ⭐
-        </p>
       </SSWCardContent>
     </SSWCard>
   );
