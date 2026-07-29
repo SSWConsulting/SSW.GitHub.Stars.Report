@@ -283,7 +283,7 @@ function OrgTable({
           </SSWTable>
         </div>
         <p className="org-stats report-meta">
-          {org.repos.length} repos · {totalStars.toLocaleString()} stars in total
+          Total Stars: <strong>{totalStars.toLocaleString()}</strong> ⭐
         </p>
       </SSWCardContent>
     </SSWCard>

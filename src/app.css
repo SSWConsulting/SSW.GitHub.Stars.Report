@@ -160,7 +160,6 @@ body {
 .proj-since {
   font-size: 0.75rem;
   white-space: nowrap;
-  text-transform: uppercase;
 }
 
 /* Org title (bigger). */
@@ -231,4 +230,65 @@ body {
   border-radius: 999px;
   padding: 1px 8px;
   vertical-align: middle;
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 768px) {
+  /* Header: title stacks above the sort control (stops the awkward wrap). */
+  .report-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  .report-brand h1 {
+    font-size: 1.25rem;
+  }
+
+  /* Collapse the table to the essentials: Repo · 3 months ago · Current. */
+  .table-scroll table {
+    table-layout: auto;
+    min-width: 0;
+  }
+  .table-scroll th:nth-child(1),
+  .table-scroll td:nth-child(1), /* # */
+  .table-scroll th:nth-child(3),
+  .table-scroll td:nth-child(3), /* Created on */
+  .table-scroll th:nth-child(4),
+  .table-scroll td:nth-child(4), /* 2 years ago */
+  .table-scroll th:nth-child(5),
+  .table-scroll td:nth-child(5), /* 1 year ago */
+  .table-scroll th:nth-child(6),
+  .table-scroll td:nth-child(6) {
+    /* 6 months ago */
+    display: none;
+  }
+  .table-scroll th:nth-child(2),
+  .table-scroll td:nth-child(2), /* Repo */
+  .table-scroll th:nth-child(7),
+  .table-scroll td:nth-child(7), /* 3 months ago */
+  .table-scroll th:nth-child(8),
+  .table-scroll td:nth-child(8) {
+    /* Current */
+    width: auto;
+  }
+  /* Tighten so the three columns fit without horizontal scroll. */
+  .table-scroll th,
+  .table-scroll td {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .table-scroll th {
+    font-size: 0.62rem;
+    letter-spacing: 0;
+  }
+  .proj-name {
+    overflow-wrap: anywhere; /* allow long repo names to wrap */
+  }
+
+  /* Footer: stack the items into rows. */
+  .report-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
 }
