@@ -284,11 +284,29 @@ body {
   .proj-name {
     overflow-wrap: anywhere; /* allow long repo names to wrap */
   }
+  /* Hide the 3-months delta on mobile — its prior column (6 months) is hidden,
+     so the +/- has nothing meaningful to compare against. Current keeps its delta. */
+  .table-scroll td:nth-child(7) .cell-stack > :not(strong) {
+    display: none;
+  }
 
-  /* Footer: stack the items into rows. */
+  /* Footer: centered, stacked; smaller repo link; logo and copyright on own rows. */
   .report-footer {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
     gap: 1rem;
+  }
+  .footer-repo {
+    font-size: 0.78rem;
+  }
+  .footer-repo svg {
+    width: 14px;
+    height: 14px;
+  }
+  .footer-brand {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
   }
 }
