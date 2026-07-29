@@ -40,7 +40,7 @@ body {
 .table-scroll table {
   table-layout: fixed;
   width: 100%;
-  min-width: 940px;
+  min-width: 1000px;
 }
 .table-scroll td {
   vertical-align: top; /* body cells align to the top */
@@ -51,21 +51,26 @@ body {
   letter-spacing: 0.03em;
   font-size: 0.72rem;
 }
-/* Star columns (3rd onward) are numeric → right-aligned. Repo + Created on stay left. */
-.table-scroll th:nth-child(n + 3) {
+/* Columns: # | Repo | Created on | 2y | 1y | 6mo | 3mo | Current.
+   Star columns (4th onward) are numeric → right-aligned. */
+.table-scroll th:nth-child(n + 4) {
   text-align: right;
 }
-.table-scroll th:first-child,
-.table-scroll td:first-child {
-  width: 22%; /* Repo */
+.table-scroll .col-num {
+  width: 4%;
+  text-align: center;
 }
 .table-scroll th:nth-child(2),
 .table-scroll td:nth-child(2) {
+  width: 20%; /* Repo */
+}
+.table-scroll th:nth-child(3),
+.table-scroll td:nth-child(3) {
   width: 12%; /* Created on */
 }
-.table-scroll th:nth-child(n + 3),
-.table-scroll td:nth-child(n + 3) {
-  width: 13.2%; /* five star columns */
+.table-scroll th:nth-child(n + 4),
+.table-scroll td:nth-child(n + 4) {
+  width: 12.8%; /* five star columns */
 }
 /* Highlight the last (Current) column with a subtle grey. */
 .table-scroll th:last-child,
@@ -157,14 +162,17 @@ body {
   white-space: nowrap;
 }
 
-/* Org name + repo/star totals beneath it. */
-.org-heading {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+/* Org title (bigger). */
+.org-title {
+  font-size: 1.35rem;
+  font-weight: 600;
 }
+
+/* Subtle totals caption placed under the table. */
 .org-stats {
+  margin: 12px 2px 0;
   font-size: 0.8rem;
+  text-align: right;
 }
 
 /* Org logo + name heading above each table. */

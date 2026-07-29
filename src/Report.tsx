@@ -194,16 +194,11 @@ function OrgTable({
               alt={`${org.name} logo`}
             />
           </a>
-          <div className="org-heading">
-            <SSWCardTitle>
-              <a href={`https://github.com/${org.login}`} target="_blank" rel="noreferrer">
-                {org.name}
-              </a>
-            </SSWCardTitle>
-            <span className="org-stats report-meta">
-              {org.repos.length} repos · {totalStars.toLocaleString()} stars in total
-            </span>
-          </div>
+          <SSWCardTitle className="org-title">
+            <a href={`https://github.com/${org.login}`} target="_blank" rel="noreferrer">
+              {org.name}
+            </a>
+          </SSWCardTitle>
         </div>
       </SSWCardHeader>
       <SSWCardContent>
@@ -211,6 +206,7 @@ function OrgTable({
           <SSWTable>
             <SSWTableHeader>
               <SSWTableRow>
+                <SSWTableHead className="col-num">#</SSWTableHead>
                 <SSWTableHead>Repo</SSWTableHead>
                 <SSWTableHead>Created on</SSWTableHead>
                 <SSWTableHead numeric>
@@ -231,7 +227,7 @@ function OrgTable({
               </SSWTableRow>
             </SSWTableHeader>
             <SSWTableBody>
-              {repos.map((r) => {
+              {repos.map((r, i) => {
                 const v2 = valueAt(r, d24);
                 const v1 = valueAt(r, d12);
                 const v6 = valueAt(r, d6);
@@ -250,6 +246,9 @@ function OrgTable({
 
                 return (
                   <SSWTableRow key={r.repo}>
+                    <SSWTableCell className="col-num">
+                      <span className="report-meta">{i + 1}</span>
+                    </SSWTableCell>
                     <SSWTableCell>
                       <span className="proj-name">
                         <a
@@ -283,6 +282,9 @@ function OrgTable({
             </SSWTableBody>
           </SSWTable>
         </div>
+        <p className="org-stats report-meta">
+          {org.repos.length} repos · {totalStars.toLocaleString()} stars in total
+        </p>
       </SSWCardContent>
     </SSWCard>
   );
