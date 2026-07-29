@@ -321,6 +321,9 @@ export default function Report() {
   return (
     <SSWTooltipProvider delay={0}>
     <div className="report-shell">
+      <p className="mobile-tip">
+        💡 <strong>Tip:</strong> Additional information is shown on larger screens.
+      </p>
       <header className="report-head">
         <div className="report-brand">
           <span className="report-emoji" role="img" aria-label="chart increasing">
