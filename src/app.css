@@ -160,6 +160,7 @@ body {
 .proj-since {
   font-size: 0.75rem;
   white-space: nowrap;
+  text-transform: uppercase;
 }
 
 /* Org title (bigger). */
@@ -195,7 +196,8 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: var(--spacing-md, 1rem);
-  padding-top: var(--spacing-md, 1rem);
+  margin-top: 1.5rem; /* extra space above the divider */
+  padding: 2rem 0 2.5rem; /* breathing room above & below the footer */
   border-top: 1px solid var(--border, #e5e5e5);
 }
 
