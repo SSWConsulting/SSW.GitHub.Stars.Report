@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import {
   SSWCard,
   SSWCardHeader,
@@ -106,18 +106,16 @@ function Delta({ from, to }: { from: number | null; to: number | null }) {
 function Cell({
   value,
   prev,
-  loading,
-  emptyLabel = "—",
+  emptyLabel,
 }: {
   value: number | null;
   prev: number | null;
-  loading?: boolean;
-  emptyLabel?: string; // shown when value is null (e.g. "private" vs "—")
+  emptyLabel?: ReactNode; // shown when value is null (defaults to a muted dash)
 }) {
   if (value === null)
     return (
       <SSWTableCell numeric>
-        <span className="report-meta">{loading ? "…" : emptyLabel}</span>
+        {emptyLabel ?? <span className="report-meta">—</span>}
       </SSWTableCell>
     );
   return (
@@ -261,7 +259,6 @@ function OrgTable({
                         >
                           {r.name}
                         </a>
-                        {r.private && <span className="tag-private">private</span>}
                       </span>
                     </SSWTableCell>
                     <SSWTableCell>
@@ -276,7 +273,9 @@ function OrgTable({
                     <Cell
                       value={current}
                       prev={v3}
-                      emptyLabel={r.private ? "private" : "—"}
+                      emptyLabel={
+                        r.private ? <span className="tag-private">private</span> : undefined
+                      }
                     />
                   </SSWTableRow>
                 );
