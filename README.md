@@ -22,6 +22,7 @@ Quarterly cron (1 Jan/Apr/Jul/Oct, 10am Sydney)
        └─ commits it
             └─ triggers the Pages deploy → site rebuilds
             └─ posts a card to Microsoft Teams (@mentions the team)
+            └─ sends an email report (Power Automate → Outlook)
 ```
 
 - **Data** lives in [`public/stars-history.json`](public/stars-history.json),
@@ -62,11 +63,13 @@ The Vite `base` path is set from the repo name at build time.
 
 [`.github/workflows/star-report.yml`](.github/workflows/star-report.yml) runs
 quarterly at **10am Sydney** on 1 Jan / 1 Apr / 1 Jul / 1 Oct. It records a
-checkpoint, commits it, and notifies Microsoft Teams.
+checkpoint, commits it, then **posts a Microsoft Teams card and sends an email
+report** — an HTML snapshot of the numbers with a link to the live page.
 
 | Secret | Required? | Purpose |
 | --- | --- | --- |
-| `TEAMS_WEBHOOK_URL` | for notifications | A Teams **Workflows** webhook ("Send webhook alerts to a channel"). If unset, the notification step is skipped. |
+| `TEAMS_WEBHOOK_URL` | for the Teams card | A Teams **Workflows** webhook ("Send webhook alerts to a channel"). If unset, the Teams step is skipped. |
+| `EMAIL_WEBHOOK_URL` | for the email | A Power Automate flow (**"When a Teams webhook request is received"** → **Office 365 Outlook: Send an email (V2)**) that sends from a mailbox via OAuth — no SMTP. The workflow POSTs `{ subject, html }`; recipients are configured inside the flow. If unset, the email step is skipped. |
 | `ORG_READ_TOKEN` | optional | A PAT with read access to the **private** repos, so their checkpoints keep updating. Falls back to the default token (public repos only). |
 
 Scheduled runs @mention the full team; manual runs (`workflow_dispatch`) mention
